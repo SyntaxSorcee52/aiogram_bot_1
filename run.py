@@ -8,7 +8,7 @@ from config import TOKEN
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
-@dp.message(Command(commands='start'))
+@dp.message(Command('start'))
 async def cmd_start(message: Message):
     await message.answer('hello ')
 
