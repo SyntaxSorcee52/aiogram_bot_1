@@ -13,7 +13,7 @@ router = Router()
 @router.message(CommandStart())
 async def  cmd_start(message:Message):
     user_name = html.quote(message.from_user.first_name)
-    text = dedent("""
+    text = dedent(f"""
         <b>👋 Привет, {user_name}</b>
         Я могу помоч тебе с разнми задачами 
         выбери что-то ниже👇
