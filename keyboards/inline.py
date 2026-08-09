@@ -4,9 +4,6 @@ def menu_buttons():
     buttons=[
         [
             InlineKeyboardButton(text="вики", callback_data='wiki')
-        ],
-        [
-            InlineKeyboardButton(text='я хз что делает эта кнопка',callback_data='xz')
         ]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -15,7 +12,8 @@ def menu_buttons():
 def wiki_buttons():
     buttons=[
         [
-            InlineKeyboardButton(text='рандомная статья',callback_data='random_article')
+            InlineKeyboardButton(text='рандомная статья',callback_data='random_article'),
+            InlineKeyboardButton(text='вернуться в меню',callback_data='back_to_menu')
         ]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)

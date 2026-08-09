@@ -1,6 +1,7 @@
 from aiogram import Router, F, html
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, Message
-from keyboards.inline import wiki_buttons, wiki_random_article
+from keyboards.inline import wiki_buttons, wiki_random_article, menu_buttons
+from textwrap import dedent
 import aiohttp
 
 router  = Router()
@@ -8,8 +9,21 @@ router  = Router()
 #wiki button
 @router.callback_query(F.data == "wiki")
 async def main_menu_handler(callback:CallbackQuery):
-    await callback.answer(text='wiki в разработке')
+    await callback.answer()
     await callback.message.edit_text(text="Выбери категрию",parse_mode="HTML",reply_markup=wiki_buttons())
+
+@router.callback_query(F.data == 'back_to_menu')
+async def back_to_menu(callback:CallbackQuery):
+    text = dedent("""
+            <b>👋 Привет</b>
+            Я могу помоч тебе с разнми задачами 
+            выбери что-то ниже👇
+        """).strip()
+    
+    await callback.message.edit_text(text=text,parse_mode="HTML",reply_markup=menu_buttons())
+
+
+
 
 
 @router.callback_query(F.data == "random_article")
