@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # 1. СЕРВИС БАЗЫ ДАННЫХ
+  postgres:
+    image: postgres:16-alpine      # Скачай готовый образ Postgres
+    container_name: bot_postgres   # Название контейнера
+    environment:
+      POSTGRES_USER: postgres      # Логин
+      POSTGRES_PASSWORD: secret     # Пароль
+      POSTGRES_DB: bot_db          # Название базы
+    ports:
+      - "5432:5432"                # Открываем порт 5432 для подключения с нашего ПК (localhost:5432)
+    volumes:
+      - pgdata:/var/lib/postgresql/data # Сохраняем данные на диске, чтобы они не удалялись при выключении
+
+  # 2. СЕРВИС REDIS (КЭШ/СОСТОЯНИЯ)
+  redis:
+    image: redis:7-alpine
+    container_name: bot_redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata: # Дисковый объем для базы
