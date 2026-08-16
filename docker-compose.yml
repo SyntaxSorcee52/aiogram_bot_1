@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  # 1. БОТ НА PYTHON
+  bot:
+    build: .                 # Собрать образ из текущей папки (используя Dockerfile)
+    container_name: tg_bot
+    restart: always
+    environment:
+      - DB_HOST=postgres     # Передаём имя контейнера БД
+      - REDIS_HOST=redis     # Передаём имя контейнера Redis
+    depends_on:              # Бот запустится только ПОСЛЕ запуска базы и реддиса
+      - postgres
+      - redis
   # 1. СЕРВИС БАЗЫ ДАННЫХ
   postgres:
     image: postgres:16-alpine      # Скачай готовый образ Postgres
