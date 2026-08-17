@@ -3,7 +3,10 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 def menu_buttons():
     buttons=[
         [
-            InlineKeyboardButton(text="вики", callback_data='wiki')
+            InlineKeyboardButton(text="вики", callback_data="wiki")
+        ],
+        [
+            InlineKeyboardButton(text="подбросить монетку", callback_data="monetka")
         ]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -29,6 +32,16 @@ def wiki_random_article(page_url:str):
         ],
         [
             InlineKeyboardButton(text='открыть полностью',url=page_url)
+        ]
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+def monetka_buttons():
+    buttons=[
+        [
+            InlineKeyboardButton(text='подбросить ещё раз',callback_data='monetka')
+        ],
+        [
+            InlineKeyboardButton(text='вернуться в меню',callback_data='back_to_menu')
         ]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)

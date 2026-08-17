@@ -1,8 +1,9 @@
 from aiogram import Router, F, html
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, Message
-from keyboards.inline import wiki_buttons, wiki_random_article, menu_buttons
+from keyboards.inline import wiki_buttons, wiki_random_article, menu_buttons, monetka_buttons
 from textwrap import dedent
 import aiohttp
+import random
 
 router  = Router()
 
@@ -53,3 +54,10 @@ async def get_random_article(callback:CallbackQuery):
     except Exception as e:
         print(f'код ебнулся ошибка {respons.status}')
         await callback.answer(text='код ебнулся сорян 😭')
+
+#кнопки monetki
+@router.callback_query(F.data == "monetka")
+async def random_monetka(callback:CallbackQuery):
+    monetka = ('Орёл', 'Решка')
+    element = random.choice(monetka)
+    await callback.message.edit_text(text=element,parse_mode="HTML",reply_markup=monetka_buttons())
