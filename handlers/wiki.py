@@ -1,9 +1,13 @@
 from aiogram import Router, F, html
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, Message
 from keyboards.inline import wiki_buttons, wiki_random_article, menu_buttons, monetka_buttons
+from aiogram.exceptions import TelegramBadRequest
 from textwrap import dedent
 import aiohttp
 import random
+from redis.asyncio import Redis
+import logging
+
 
 router  = Router()
 
@@ -11,7 +15,18 @@ router  = Router()
 @router.callback_query(F.data == "wiki")
 async def main_menu_handler(callback:CallbackQuery):
     await callback.answer()
-    await callback.message.edit_text(text="Выбери категрию",parse_mode="HTML",reply_markup=wiki_buttons())
+    try:
+        await callback.message.edit_text(text="Выбери категрию",parse_mode="HTML",reply_markup=wiki_buttons())
+    except TelegramBadRequest as e:
+            # Игнорируем только дублирование текста при спаме
+        if "message is not modified" in e.message:
+            pass
+        else:
+            # Другие ошибки Telegram выводим в консоль
+            print(f"Ошибка Telegram API: {e}")
+    except Exception as e:
+            # Все остальные фатальные ошибки кода пишем в консоль!
+            print(f"Критическая ошибка в коде: {e}")
 
 @router.callback_query(F.data == 'back_to_menu')
 async def back_to_menu(callback:CallbackQuery):
@@ -20,9 +35,19 @@ async def back_to_menu(callback:CallbackQuery):
             Я могу помоч тебе с разнми задачами 
             выбери что-то ниже👇
         """).strip()
-    
-    await callback.message.edit_text(text=text,parse_mode="HTML",reply_markup=menu_buttons())
-
+    await callback.answer()
+    try:
+        await callback.message.edit_text(text=text,parse_mode="HTML",reply_markup=menu_buttons())
+    except TelegramBadRequest as e:
+        # Игнорируем только дублирование текста при спаме
+        if "message is not modified" in e.message:
+            pass
+        else:
+            # Другие ошибки Telegram выводим в консоль
+            print(f"Ошибка Telegram API: {e}")
+    except Exception as e:
+        # Все остальные фатальные ошибки кода пишем в консоль!
+        print(f"Критическая ошибка в коде: {e}")
 
 
 
@@ -55,9 +80,3 @@ async def get_random_article(callback:CallbackQuery):
         print(f'код ебнулся ошибка {respons.status}')
         await callback.answer(text='код ебнулся сорян 😭')
 
-#кнопки monetki
-@router.callback_query(F.data == "monetka")
-async def random_monetka(callback:CallbackQuery):
-    monetka = ('Орёл', 'Решка')
-    element = random.choice(monetka)
-    await callback.message.edit_text(text=element,parse_mode="HTML",reply_markup=monetka_buttons())
