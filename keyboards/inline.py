@@ -7,6 +7,9 @@ def menu_buttons():
         ],
         [
             InlineKeyboardButton(text="подбросить монетку", callback_data="monetka")
+        ],
+        [
+            InlineKeyboardButton(text="конвертор валют", callback_data="konvertor")
         ]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
