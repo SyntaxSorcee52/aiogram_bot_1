@@ -45,3 +45,17 @@ def monetka_buttons():
         ]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+def admin_buttons():
+    buttons=[
+        [
+            InlineKeyboardButton(text='Статистика', callback_data='stats')
+        ],
+        [
+            InlineKeyboardButton(text='Рассылка', callback_data='broadkast')
+        ],
+        [
+            InlineKeyboardButton(text='база данных', callback_data='database')
+        ]
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)

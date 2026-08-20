@@ -9,6 +9,7 @@ from handlers.start import router as start_router
 from handlers.wiki import router as wiki_router
 from handlers.monetka import router as monetka_router
 from aiogram.fsm.storage.redis import RedisStorage
+import logging
 
 storage = RedisStorage.from_url("redis://redis:6379/0")
 
@@ -24,4 +25,8 @@ async def main():
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    logging.basicConfig(level=logging.INFO)
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print('Exit')
