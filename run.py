@@ -24,20 +24,27 @@ dp.include_router(monetka_router)
 
 
 async def set_commands():
-    admin_commands = [
+    user_commands = [
+        BotCommand(command="start", description="перезапустить бота")
+    ]
+
+    admin_commands = user_commands + [
         BotCommand(command="admin", description="👑 админ панель")
     ]
+    await bot.set_my_commands(user_commands, scope=BotCommandScopeDefault())
     try:
         await bot.set_my_commands(
             admin_commands,
             scope=BotCommandScopeChat(chat_id=ADMIN_ID)
         )
+        print("✅ Меню админа успешно отправлено в Telegram!")
     except Exception as e:
         print(f"Не удалось установить меню админа: {e}")
 
 async def main():
     await init_db()
     await dp.start_polling(bot)
+    await set_commands()
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
