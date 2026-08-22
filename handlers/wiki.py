@@ -4,7 +4,6 @@ from keyboards.inline import wiki_buttons, wiki_random_article, menu_buttons, mo
 from aiogram.exceptions import TelegramBadRequest
 from textwrap import dedent
 import aiohttp
-import random
 from redis.asyncio import Redis
 import logging
 

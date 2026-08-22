@@ -1,19 +1,17 @@
 from aiogram import Router, F, html
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, Message
-from keyboards.inline import wiki_buttons, wiki_random_article, menu_buttons, monetka_buttons
+from keyboards.inline import menu_buttons, monetka_buttons
 from aiogram.exceptions import TelegramBadRequest
-from textwrap import dedent
-import aiohttp
 import random
-from redis.asyncio import Redis
+# from redis.asyncio import Redis
 import logging
 
-redis_client = Redis(host="redis", port=6379, decode_responses=True)
+# redis_client = Redis(host="redis", port=6379, decode_responses=True)
 
 router  = Router()
 
 @router.callback_query(F.data == "monetka")
-async def random_monetka(callback:CallbackQuery, redis: Redis):
+async def random_monetka(callback:CallbackQuery):
     monetka = ('Орёл 🦅', 'Решка 🪙')
     element = random.choice(monetka)
     await callback.answer(text=f"Выпало: {element}", show_alert=False)

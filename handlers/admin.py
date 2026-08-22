@@ -1,5 +1,5 @@
 from aiogram import Router, html
-from aiogram.types import message
+from aiogram.types import Message
 from aiogram.filters import Command
 from textwrap import dedent
 from database.db import add_user
@@ -11,7 +11,7 @@ router = Router()
 
 
 @router.message(Command("admin"))
-async def admin_panel():
+async def admin_panel(message:Message):
     if message.from_user.id != ADMIN_ID:
         await message.answer(text='У вас нет прав для этой команды')
         return
